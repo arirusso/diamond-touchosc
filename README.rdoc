@@ -4,7 +4,7 @@
 
 {TouchOSC}[http://hexler.net] is a modular OSC and MIDI control surface for iPhone / iPod Touch / iPad. 
 
-This project contains example TouchOSC layouts and Ruby scripts for controlling Diamond with TouchOSC.
+This project contains example TouchOSC layouts and Ruby scripts for controlling Diamond.
 
 == Installation
 
