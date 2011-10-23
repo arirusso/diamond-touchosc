@@ -14,7 +14,7 @@ or
 
   git clone git@github.com:arirusso/diamond-touchosc
   
-You will need the TouchOSC editor, {available here}[http://hexler.net/software/touchosc] to install the layouts on your touch device
+You will also need the TouchOSC editor, {available here}[http://hexler.net/software/touchosc] to install the layouts on your touch device
 
 == License
 
