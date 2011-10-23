@@ -1,0 +1,13 @@
+= diamond-touchosc
+
+Example layouts and scripts for using {TouchOSC}[http://hexler.net] to control {Diamond}[http://github.com/arirusso/diamond], a Ruby-based arpeggiator
+
+== Installation
+
+  git clone git@github.com:arirusso/diamond-touchosc
+
+== License
+
+Licensed under Apache 2.0, See the file LICENSE
+
+Copyright © 2011 Ari Russo
