@@ -1,6 +1,10 @@
 = diamond-touchosc
 
-Example layouts and scripts for using {TouchOSC}[http://hexler.net] to control {Diamond}[http://github.com/arirusso/diamond], a Ruby-based arpeggiator
+{Diamond}[http://github.com/arirusso/diamond] is a Ruby-based arpeggiator. 
+
+{TouchOSC}[http://hexler.net] is a modular OSC and MIDI control surface for iPhone / iPod Touch / iPad. 
+
+This project contains example TouchOSC layouts and Ruby scripts for controlling Diamond with TouchOSC.
 
 == Installation
 
