@@ -8,7 +8,7 @@ This project contains example TouchOSC layouts and Ruby scripts for controlling 
 
 == Installation
 
-  {download here}[https://github.com/arirusso/diamond-touchosc/zipball/master]
+{download here}[https://github.com/arirusso/diamond-touchosc/zipball/master]
   
 or
 
