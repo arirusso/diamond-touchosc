@@ -2,16 +2,13 @@
 $:.unshift File.join( File.dirname( __FILE__ ), '../lib')
 
 #
-# this is the most basic setup possible
-# we just set up an arpeggiator and let it run in the foreground
-#
 
 require "diamond"
 require "diamond-touchosc"
 
 @output = UniMIDI::Output.gets
 
-map = {
+arpeggiator_osc_controls = {
   "/1/fader1" => { 
     :translate => -24..24,
     :action => Proc.new { |arpeggiator, val| arpeggiator.interval = val }
@@ -22,7 +19,12 @@ map = {
   }
 }
 
-opts = { 
+keyboard = TouchOSC::Keyboard.new do |note_num|
+  note = MIDIMessage::NoteOn.new(note_num - 12, 0, 100)
+  arp.add(note)
+end
+
+arpeggiator_opts = { 
   :gate => 90,   
   :interval => 7,
   :midi => @output,
@@ -30,20 +32,11 @@ opts = {
   :range => 4, 
   :rate => 8,
   :resolution => 128,
-  :osc_map => map,
+  :osc_map => arpeggiator_osc_controls,
   :osc_input_port => 8000
 }
 
-arp = Diamond::Arpeggiator.new(110, opts)
-
-chord = ["C3", "G3", "Bb3", "A4"]
-
-arp << chord
-
-keyboard = TouchOSC::Keyboard.new(arp) do |note_num|
-  note = MIDIMessage::NoteOn.new(note_num - 12, 0, 100)
-  arp.add(note)
-end
+arp = Diamond::Arpeggiator.new(110, arpeggiator_opts)
 
 keyboard.osc_start(:input_port => 8000)
    
