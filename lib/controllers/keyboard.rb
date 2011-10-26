@@ -11,11 +11,12 @@ module TouchOSC
     def initialize(options = {}, &block)
       @octave = options[:octave] || DefaultOctave
       @maxhold = options[:max_hold] || 6
-      @hold = false
+      @holding = nil
+      @on_play = block
       @id = options[:id] || 1
 
       initialize_controls
-      initialize_keys(&block)
+      initialize_keys(&@on_play)
     end
     
     def octave=(val)
@@ -23,7 +24,16 @@ module TouchOSC
     end
     
     def hold(active)
-      @hold = active
+      if !active
+        @holding.each { |note_num| @on_play.call(0, note_num) }
+        @holding = nil
+      else
+        @holding = []
+      end
+    end
+    
+    def hold?
+      !@holding.nil?
     end
     
     private
@@ -41,7 +51,11 @@ module TouchOSC
         unless match.empty?
           scale_degree = (match.first.to_i - 1)
           note_num = scale_degree + (12 * keyboard.octave)
-          yield(val, note_num.to_i)
+          if val.to_i.zero? && hold?
+            @holding << note_num.to_i
+          else
+            yield(val, note_num.to_i)
+          end
         end
       end
     end
