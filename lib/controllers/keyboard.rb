@@ -25,7 +25,7 @@ module TouchOSC
     
     def hold(active)
       if !active
-        @holding.each { |note_num| @on_play.call(0, note_num) }
+        @holding.each { |note_num| @on_play.call(0, note_num) } unless @holding.nil?
         @holding = nil
       else
         @holding = []
