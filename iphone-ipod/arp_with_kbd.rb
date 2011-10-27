@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 $:.unshift File.join( File.dirname( __FILE__ ), '../lib')
+$:.unshift File.join( File.dirname( __FILE__ ), '../../osc-access/lib')
 
 #
 
@@ -52,7 +53,8 @@ arpeggiator_opts = {
   :resolution => 128,
   :osc_map => arpeggiator_osc_controls,
   :osc_input_port => 8000,
-  :osc_output => { :host => "192.168.1.5", :port => 9000 }
+  :osc_output => { :host => "192.168.1.5", :port => 9000 },
+  :name => "Diamond Arpeggiator"
 }
 
 arp = Diamond::Arpeggiator.new(110, arpeggiator_opts)
