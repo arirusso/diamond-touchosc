@@ -9,6 +9,9 @@ require "diamond-touchosc"
 @output = UniMIDI::Output.gets
 
 arpeggiator_osc_controls = {
+  "/1/toggle1" => { 
+    :action => Proc.new { |arpeggiator, val| arpeggiator.toggle_start }
+  },
   "/1/rotary1" => { 
     :translate => 30..230,
     :action => Proc.new { |arpeggiator, val| arpeggiator.tempo = val }
@@ -35,7 +38,7 @@ arpeggiator_osc_controls = {
   },
   "/1/multifader1/6" => {
     :translate => -24..24,
-    :action => Proc.new { |arpeggiator, val| p val; arpeggiator.transpose = val }
+    :action => Proc.new { |arpeggiator, val| arpeggiator.transpose = val }
   },
 }
 
@@ -62,6 +65,4 @@ keyboard = TouchOSC::Keyboard.new do |pressure, note_num|
   arp.send(action, note)
 end
 
-keyboard.osc_start(:input_port => 8000)
-
-arp.start(:focus => true)
+keyboard.osc_start(:input_port => 8000).join
