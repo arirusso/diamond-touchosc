@@ -52,6 +52,7 @@ module TouchOSC
           scale_degree = (match.first.to_i - 1)
           note_num = scale_degree + (12 * keyboard.octave)
           if val.to_i.zero? && hold?
+            @holding.shift if @holding.size >= @maxhold
             @holding << note_num.to_i
           else
             yield(val, note_num.to_i)
