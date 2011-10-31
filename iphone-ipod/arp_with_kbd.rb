@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 $:.unshift File.join( File.dirname( __FILE__ ), '../lib')
-$:.unshift File.join( File.dirname( __FILE__ ), '../../osc-access/lib')
 
 #
 
@@ -14,32 +13,32 @@ arpeggiator_osc_controls = {
     :action => Proc.new { |arpeggiator, val| arpeggiator.toggle_start }
   },
   "/1/rotary1" => { 
-    :translate => 30..230,
-    :action => Proc.new { |arpeggiator, val| arpeggiator.tempo = val }
+    :accessor => :tempo
+    :translate => 30..230
   },
   "/1/multifader1/1" => {
-    :translate => [128, 64, 32, 24, 16, 12, 8, 4, 2, 1],
-    :action => Proc.new { |arpeggiator, val| arpeggiator.rate = val }
+    :accessor => :rate
+    :translate => [128, 64, 32, 24, 16, 12, 8, 4, 2, 1]
   },
   "/1/multifader1/2" => {
-    :translate => 1..200,
-    :action => Proc.new { |arpeggiator, val| arpeggiator.gate = val }
+    :accessor => :gate,
+    :translate => 1..200
   },
   "/1/multifader1/3" => {
-    :translate => 0..7,
-    :action => Proc.new { |arpeggiator, val| arpeggiator.range = val }
+    :accessor => :range
+    :translate => 0..7
   },
   "/1/multifader1/4" => {
-    :translate => -24..24,
-    :action => Proc.new { |arpeggiator, val| arpeggiator.interval = val }
+    :accessor => :interval,
+    :translate => -24..24
   },
   "/1/multifader1/5" => {
-    :translate => -10..10,
-    :action => Proc.new { |arpeggiator, val| arpeggiator.pattern_offset = val }
+    :accessor => :pattern_offset,
+    :translate => -10..10
   },
   "/1/multifader1/6" => {
-    :translate => -24..24,
-    :action => Proc.new { |arpeggiator, val| arpeggiator.transpose = val }
+    :accessor => :transpose,
+    :translate => -24..24
   },
 }
 
@@ -53,7 +52,7 @@ arpeggiator_opts = {
   :resolution => 128,
   :osc_map => arpeggiator_osc_controls,
   :osc_input_port => 8000,
-  :osc_output => { :host => "192.168.1.5", :port => 9000 },
+  :osc_output => { :host => "192.168.1.8", :port => 9000 },
   :name => "Diamond Arpeggiator"
 }
 
