@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 $:.unshift File.join( File.dirname( __FILE__ ), '../lib')
 #
-$:.unshift File.join( File.dirname( __FILE__ ), '../../osc-access/lib')
+#$:.unshift File.join( File.dirname( __FILE__ ), '../../osc-access/lib')
 
 require "diamond"
 require "diamond-touchosc"
@@ -23,32 +23,32 @@ arpeggiator_osc_controls = {
   "/1/rotary1" => { 
     :accessor => :tempo,
     :translate => 30..230,
-    :update => Proc.new { |arp, val| arp.osc_send("/1/text6", val) }
+    :action => Proc.new { |arp, val| arp.osc_send("/1/text6", val) }
   },
   "/1/rotary2" => {
     :accessor => :rate,
     :translate => [128, 64, 32, 24, 16, 12, 8, 4, 2, 1],
-    :update => Proc.new { |arp, val| arp.osc_send("/1/text1", "1 / #{val}") }
+    :action => Proc.new { |arp, val| arp.osc_send("/1/text1", "1 / #{val}") }
   },
   "/1/rotary3" => {
     :accessor => :gate,
     :translate => 1..200,
-    :update => Proc.new { |arp, val| arp.osc_send("/1/text2", "#{val}%") }
+    :action => Proc.new { |arp, val| arp.osc_send("/1/text2", "#{val}%") }
   },
   "/1/rotary4" => {
     :accessor => :range,
     :translate => 0..7,
-    :update => Proc.new { |arp, val| arp.osc_send("/1/text3", val) }
+    :action => Proc.new { |arp, val| arp.osc_send("/1/text3", val) }
   },
   "/1/rotary5" => {
     :accessor => :interval,
     :translate => -24..24,
-    :update => Proc.new { |arp, val| arp.osc_send("/1/text4", val) }
+    :action => Proc.new { |arp, val| arp.osc_send("/1/text4", val) }
   },
   "/1/fader1" => {
     :accessor => :transpose,
     :translate => -24..24,
-    :update => Proc.new { |arp, val| arp.osc_send("/1/text7", val) }
+    :action => Proc.new { |arp, val| arp.osc_send("/1/text7", val) }
   },
 }
 
