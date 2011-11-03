@@ -41,14 +41,14 @@ module TouchOSC
     protected
     
     def update_octave_label
-      osc_send(:octave)
+      osc_send("/#{@id}/kb_text1", @octave.to_s)
     end
     
     private
     
     def initialize_controls
       osc_receive("/#{@id}/kb/toggle1", :accessor => :hold)
-      osc_receive("/#{@id}/kb/label3", :initialize => :octave)
+      osc_receive("/#{@id}/kb/text1", :initialize => :octave)
       osc_receive("/#{@id}/kb/push1") do |keyboard, val| 
         keyboard.octave -= 1 if val > 0
         keyboard.send(:update_octave_label)
@@ -60,7 +60,7 @@ module TouchOSC
     end
     
     def initialize_keys(&block)
-      regex = /\/#{@id}\/kb\/key(\d+)/
+      regex = /\/#{@id}\/kb\/key\/(\d+)/
       osc_receive(regex) do |keyboard, val, msg| 
         match = msg.address.scan(regex).flatten
         unless match.empty?

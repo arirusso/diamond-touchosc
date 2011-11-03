@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 $:.unshift File.join( File.dirname( __FILE__ ), '../lib')
 #
+$:.unshift File.join( File.dirname( __FILE__ ), '../../osc-access/lib')
 
 require "diamond"
 require "diamond-touchosc"
@@ -8,10 +9,10 @@ require "diamond-touchosc"
 @output = UniMIDI::Output.gets
 
 arpeggiator_osc_controls = {
-  "/1/toggle1" => {
-    :initialize => :running,
-    :translate => :boolean
-  },
+  #"/1/toggle1" => {
+  #  :initialize => :running,
+  #  :translate => :boolean
+  #},
   "/1/toggle2" => {
     :accessor => :mute,
     :translate => :boolean
@@ -21,31 +22,33 @@ arpeggiator_osc_controls = {
   },
   "/1/rotary1" => { 
     :accessor => :tempo,
-    :translate => 30..230
+    :translate => 30..230,
+    :update => Proc.new { |arp, val| arp.osc_send("/1/text6", val) }
   },
-  "/1/multifader1/1" => {
+  "/1/rotary2" => {
     :accessor => :rate,
-    :translate => [128, 64, 32, 24, 16, 12, 8, 4, 2, 1]
+    :translate => [128, 64, 32, 24, 16, 12, 8, 4, 2, 1],
+    :update => Proc.new { |arp, val| arp.osc_send("/1/text1", "1 / #{val}") }
   },
-  "/1/multifader1/2" => {
+  "/1/rotary3" => {
     :accessor => :gate,
-    :translate => 1..200
+    :translate => 1..200,
+    :update => Proc.new { |arp, val| arp.osc_send("/1/text2", "#{val}%") }
   },
-  "/1/multifader1/3" => {
+  "/1/rotary4" => {
     :accessor => :range,
-    :translate => 0..7
+    :translate => 0..7,
+    :update => Proc.new { |arp, val| arp.osc_send("/1/text3", val) }
   },
-  "/1/multifader1/4" => {
+  "/1/rotary5" => {
     :accessor => :interval,
-    :translate => -24..24
+    :translate => -24..24,
+    :update => Proc.new { |arp, val| arp.osc_send("/1/text4", val) }
   },
-  "/1/multifader1/5" => {
-    :accessor => :pattern_offset,
-    :translate => -10..10
-  },
-  "/1/multifader1/6" => {
+  "/1/fader1" => {
     :accessor => :transpose,
-    :translate => -24..24
+    :translate => -24..24,
+    :update => Proc.new { |arp, val| arp.osc_send("/1/text7", val) }
   },
 }
 
@@ -59,8 +62,7 @@ arpeggiator_opts = {
   :resolution => 128,
   :osc_map => arpeggiator_osc_controls,
   :osc_input_port => 8000,
-  :osc_output => { :host => "192.168.1.6", :port => 9000 },
-  :name => "Diamond Arpeggiator"
+  :osc_output => { :host => "192.168.1.6", :port => 9000 }
 }
 
 arp = Diamond::Arpeggiator.new(110, arpeggiator_opts)
