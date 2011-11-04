@@ -41,14 +41,14 @@ module TouchOSC
     protected
     
     def update_octave_label
-      osc_send("/#{@id}/kb_text1", @octave.to_s)
+      osc_send("/#{@id}/kb/text1", @octave.to_s)
     end
     
     private
     
     def initialize_controls
       osc_receive("/#{@id}/kb/toggle1", :accessor => :hold)
-      osc_receive("/#{@id}/kb/text1", :initialize => :octave)
+      #osc_receive("/#{@id}/kb/text1", :initialize => :octave)
       osc_receive("/#{@id}/kb/push1") do |keyboard, val| 
         keyboard.octave -= 1 if val > 0
         keyboard.send(:update_octave_label)

@@ -1,7 +1,6 @@
 #!/usr/bin/env ruby
 $:.unshift File.join( File.dirname( __FILE__ ), '../lib')
 #
-#$:.unshift File.join( File.dirname( __FILE__ ), '../../osc-access/lib')
 
 require "diamond"
 require "diamond-touchosc"
@@ -9,10 +8,10 @@ require "diamond-touchosc"
 @output = UniMIDI::Output.gets
 
 arpeggiator_osc_controls = {
-  #"/1/toggle1" => {
-  #  :initialize => :running,
-  #  :translate => :boolean
-  #},
+  "/1/toggle1" => {
+    :accessor => :running,
+    :translate => :boolean
+  },
   "/1/toggle2" => {
     :accessor => :mute,
     :translate => :boolean
@@ -45,11 +44,17 @@ arpeggiator_osc_controls = {
     :translate => -24..24,
     :action => Proc.new { |arp, val| arp.osc_send("/1/text4", val) }
   },
+  "/1/rotary6" => Proc.new do |arp, val| 
+    index = arp.osc_translate(val, (0..(Diamond::Pattern.patterns.size - 1)))
+    pattern = Diamond::Pattern.patterns[index]
+    arp.pattern = pattern
+    arp.osc_send("/1/text5", pattern.name.to_s)
+  end,
   "/1/fader1" => {
     :accessor => :transpose,
     :translate => -24..24,
     :action => Proc.new { |arp, val| arp.osc_send("/1/text7", val) }
-  },
+  }
 }
 
 arpeggiator_opts = { 
@@ -72,7 +77,5 @@ keyboard = TouchOSC::Keyboard.new do |pressure, note_num|
   action = pressure > 0 ? :add : :remove
   arp.send(action, note)
 end
-
-arp.start
 
 keyboard.osc_start(:input_port => 8000).join
