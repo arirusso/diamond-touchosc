@@ -48,7 +48,7 @@ module TouchOSC
     
     def initialize_controls
       osc_receive("/#{@id}/kb/toggle1", :accessor => :hold)
-      #osc_receive("/#{@id}/kb/text1", :initialize => :octave)
+      osc_receive("/#{@id}/kb/text1", :initialize => :octave)
       osc_receive("/#{@id}/kb/push1") do |keyboard, val| 
         keyboard.octave -= 1 if val > 0
         keyboard.send(:update_octave_label)
